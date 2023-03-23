@@ -24,7 +24,7 @@ prompt = st.text_area("Prompt", value="Enter your message here ...")
 if st.button("Send"):
     with st.spinner("generating response ..."):
         st.session_state['message'] += [{"role": "user", "content": prompt}]
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", message=st.session_state['message']
         )
         message_rsp = response["choices"][0]["message"]["content"]

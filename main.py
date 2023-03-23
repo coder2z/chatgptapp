@@ -13,7 +13,7 @@ def show_messages(text):
 
 BASE_PROMPT = [{"role": "system", "content": "You are a helpful assistant."}]
 
-if 'message' not in st.session_state:
+if 'messages' not in st.session_state:
     st.session_state['message'] = BASE_PROMPT
 
 st.subheader("OpenAI GPT-3 Demo")

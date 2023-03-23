@@ -1,3 +1,5 @@
+import os
+
 import openai
 import streamlit as st
 
@@ -16,18 +18,17 @@ if 'message' not in st.session_state:
 
 st.subheader("OpenAI GPT-3 Demo")
 
-openai.api_key = st.text_input("OpenAI API Key", value="", type="password")
+openai.api_key = os.getenv('OPENAI_API_KEY')
 prompt = st.text_area("Prompt", value="Enter your message here ...")
 
 if st.button("Send"):
     with st.spinner("generating response ..."):
-        st.session_state['message']+=[{"role": "user", "content": prompt}]
+        st.session_state['message'] += [{"role": "user", "content": prompt}]
         response = openai.Completion.create(
-            model="gpt-3.5-turbo",message = st.session_state['message']
+            model="gpt-3.5-turbo", message=st.session_state['message']
         )
         message_rsp = response["choices"][0]["message"]["content"]
-        st.session_state['message']+=[{"role": "system", "content": message_rsp}]
-
+        st.session_state['message'] += [{"role": "system", "content": message_rsp}]
 
 if st.button("Clear"):
     st.session_state['message'] = BASE_PROMPT

@@ -14,7 +14,7 @@ def show_messages(text):
 BASE_PROMPT = [{"role": "system", "content": "You are a helpful assistant."}]
 
 if 'messages' not in st.session_state:
-    st.session_state['message'] = BASE_PROMPT
+    st.session_state['messages'] = BASE_PROMPT
 
 st.subheader("OpenAI GPT-3 Demo")
 
@@ -23,15 +23,15 @@ prompt = st.text_area("Prompt", value="Enter your message here ...")
 
 if st.button("Send"):
     with st.spinner("generating response ..."):
-        st.session_state['message'] += [{"role": "user", "content": prompt}]
+        st.session_state['messages'] += [{"role": "user", "content": prompt}]
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", message=st.session_state['message']
+            model="gpt-3.5-turbo", messages=st.session_state['messages']
         )
         message_rsp = response["choices"][0]["message"]["content"]
-        st.session_state['message'] += [{"role": "system", "content": message_rsp}]
+        st.session_state['messages'] += [{"role": "system", "content": message_rsp}]
 
 if st.button("Clear"):
-    st.session_state['message'] = BASE_PROMPT
+    st.session_state['messages'] = BASE_PROMPT
 
 test = st.empty()
 show_messages(test)
